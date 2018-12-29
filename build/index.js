@@ -2082,6 +2082,8 @@ function (_Component) {
       var _this$props = this.props,
           _this$props$classes = _this$props.classes,
           classes = _this$props$classes === void 0 ? {} : _this$props$classes,
+          _this$props$defaultVa = _this$props.defaultValues,
+          defaultValues = _this$props$defaultVa === void 0 ? {} : _this$props$defaultVa,
           _this$props$ids = _this$props.ids,
           ids = _this$props$ids === void 0 ? {} : _this$props$ids,
           _this$props$names = _this$props.names,
@@ -2096,6 +2098,8 @@ function (_Component) {
           monthId = _ids$month === void 0 ? null : _ids$month;
       var _names$month = names.month,
           monthName = _names$month === void 0 ? null : _names$month;
+      var _defaultValues$month = defaultValues.month,
+          defaultMonth = _defaultValues$month === void 0 ? 'Month' : _defaultValues$month;
       var monthsOptions = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_lodash__["keyBy"])(this.generateMonthOptions(), 'value');
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
         id: "dropdown-date",
@@ -2111,7 +2115,8 @@ function (_Component) {
         onChange: function onChange(e) {
           return _this2.handleMonthChange(e ? e.value : null);
         },
-        options: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_lodash__["values"])(monthsOptions)
+        options: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_lodash__["values"])(monthsOptions),
+        placeholder: defaultMonth
       })), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
         id: "dropdown-day",
         className: this.props.classes && this.props.classes.dayContainer ? this.props.classes.dayContainer : null

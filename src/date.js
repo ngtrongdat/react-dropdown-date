@@ -328,10 +328,11 @@ export class DropdownDate extends Component {
 
 	render() {
 		const { selectedMonth } = this.state;
-		const { classes = {}, ids = {}, names = {} } = this.props;
+		const { classes = {}, defaultValues = {}, ids = {}, names = {} } = this.props;
 		const { dateContainer = null, month: monthClass = null, monthContainer = null } = classes;
 		const { month: monthId = null } = ids;
 		const { month: monthName = null } = names;
+		const { month: defaultMonth = 'Month' } = defaultValues;
 
 		const monthsOptions = keyBy(this.generateMonthOptions(), 'value');
 
@@ -345,6 +346,7 @@ export class DropdownDate extends Component {
 						value={monthsOptions[selectedMonth]}
 						onChange={e => this.handleMonthChange(e ? e.value : null)}
 						options={values(monthsOptions)}
+						placeholder={defaultMonth}
 					/>
 				</div>
 
