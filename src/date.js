@@ -1,4 +1,4 @@
-import React, { Components } from 'react';
+import React, { Component } from 'react';
 import { keyBy, values } from 'lodash';
 import { monthByNumber, numberByMonth, daysInMonth, unit } from './helper';
 
