@@ -1848,11 +1848,6 @@ function (_Component) {
           selectedYear = _this$state3.selectedYear,
           selectedMonth = _this$state3.selectedMonth;
       var dayOptions = [];
-      dayOptions.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("option", {
-        key: -1,
-        value: "-1",
-        className: _this.props.classes && _this.props.classes.dayOptions ? _this.props.classes.dayOptions : null
-      }, _this.props.defaultValues && _this.props.defaultValues.day ? _this.props.defaultValues.day : ''));
       var monthDays;
 
       if (selectedYear === startYear) {
@@ -1860,41 +1855,37 @@ function (_Component) {
           monthDays = selectedYear % 4 === 0 && selectedMonth === 1 ? __WEBPACK_IMPORTED_MODULE_2__helper__["b" /* daysInMonth */][selectedMonth] + 1 : __WEBPACK_IMPORTED_MODULE_2__helper__["b" /* daysInMonth */][selectedMonth];
 
           for (var i = startDay; i <= monthDays; i++) {
-            dayOptions.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("option", {
-              key: i,
-              value: i,
-              className: _this.props.classes && _this.props.classes.dayOptions ? _this.props.classes.dayOptions : null
-            }, i));
+            dayOptions.push({
+              label: i,
+              value: i
+            });
           }
         } else {
           monthDays = selectedYear % 4 === 0 && selectedMonth === 1 ? __WEBPACK_IMPORTED_MODULE_2__helper__["b" /* daysInMonth */][selectedMonth] + 1 : __WEBPACK_IMPORTED_MODULE_2__helper__["b" /* daysInMonth */][selectedMonth];
 
           for (var _i4 = 1; _i4 <= monthDays; _i4++) {
-            dayOptions.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("option", {
-              key: _i4,
-              value: _i4,
-              className: _this.props.classes && _this.props.classes.dayOptions ? _this.props.classes.dayOptions : null
-            }, _i4));
+            dayOptions.push({
+              label: _i4,
+              value: _i4
+            });
           }
         }
       } else if (selectedYear === endYear) {
         if (selectedMonth === endMonth) {
           for (var _i5 = 1; _i5 <= endDay; _i5++) {
-            dayOptions.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("option", {
-              key: _i5,
-              value: _i5,
-              className: _this.props.classes && _this.props.classes.dayOptions ? _this.props.classes.dayOptions : null
-            }, _i5));
+            dayOptions.push({
+              label: _i5,
+              value: _i5
+            });
           }
         } else {
           monthDays = selectedYear % 4 === 0 && selectedMonth === 1 ? __WEBPACK_IMPORTED_MODULE_2__helper__["b" /* daysInMonth */][selectedMonth] + 1 : __WEBPACK_IMPORTED_MODULE_2__helper__["b" /* daysInMonth */][selectedMonth];
 
           for (var _i6 = 1; _i6 <= monthDays; _i6++) {
-            dayOptions.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("option", {
-              key: _i6,
-              value: _i6,
-              className: _this.props.classes && _this.props.classes.dayOptions ? _this.props.classes.dayOptions : null
-            }, _i6));
+            dayOptions.push({
+              label: _i6,
+              value: _i6
+            });
           }
         }
       } else {
@@ -1902,19 +1893,17 @@ function (_Component) {
           monthDays = selectedYear % 4 === 0 && selectedMonth === 1 ? __WEBPACK_IMPORTED_MODULE_2__helper__["b" /* daysInMonth */][selectedMonth] + 1 : __WEBPACK_IMPORTED_MODULE_2__helper__["b" /* daysInMonth */][selectedMonth];
 
           for (var _i7 = 1; _i7 <= monthDays; _i7++) {
-            dayOptions.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("option", {
-              key: _i7,
-              value: _i7,
-              className: _this.props.classes && _this.props.classes.dayOptions ? _this.props.classes.dayOptions : null
-            }, _i7));
+            dayOptions.push({
+              label: _i7,
+              value: _i7
+            });
           }
         } else {
           for (var _i8 = 1; _i8 <= 31; _i8++) {
-            dayOptions.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("option", {
-              key: _i8,
-              value: _i8,
-              className: _this.props.classes && _this.props.classes.dayOptions ? _this.props.classes.dayOptions : null
-            }, _i8));
+            dayOptions.push({
+              label: _i8,
+              value: _i8
+            });
           }
         }
       }
@@ -1937,6 +1926,21 @@ function (_Component) {
       _this.handleDateChange(__WEBPACK_IMPORTED_MODULE_2__helper__["c" /* unit */].month, month);
     });
 
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleDayChange", function (day) {
+      var onDayChange = _this.props.onDayChange;
+      day = parseInt(day);
+
+      _this.setState({
+        selectedDay: day
+      });
+
+      if (onDayChange) {
+        onDayChange(day);
+      }
+
+      _this.handleDateChange(__WEBPACK_IMPORTED_MODULE_2__helper__["c" /* unit */].day, day);
+    });
+
     _this.state = {
       startYear: null,
       startMonth: null,
@@ -1949,7 +1953,6 @@ function (_Component) {
       selectedDay: -1
     };
     _this.handleYearChange = _this.handleYearChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleDayChange = _this.handleDayChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.handleDateChange = _this.handleDateChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
   }
@@ -2038,20 +2041,6 @@ function (_Component) {
       this.handleDateChange(__WEBPACK_IMPORTED_MODULE_2__helper__["c" /* unit */].year, year);
     }
   }, {
-    key: "handleDayChange",
-    value: function handleDayChange(day) {
-      day = parseInt(day);
-      this.setState({
-        selectedDay: day
-      });
-
-      if (this.props.onDayChange) {
-        this.props.onDayChange(day);
-      }
-
-      this.handleDateChange(__WEBPACK_IMPORTED_MODULE_2__helper__["c" /* unit */].day, day);
-    }
-  }, {
     key: "handleDateChange",
     value: function handleDateChange(type, value) {
       if (this.props.onDateChange) {
@@ -2078,7 +2067,9 @@ function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var selectedMonth = this.state.selectedMonth;
+      var _this$state5 = this.state,
+          selectedDay = _this$state5.selectedDay,
+          selectedMonth = _this$state5.selectedMonth;
       var _this$props = this.props,
           _this$props$classes = _this$props.classes,
           classes = _this$props$classes === void 0 ? {} : _this$props$classes,
@@ -2090,17 +2081,28 @@ function (_Component) {
           names = _this$props$names === void 0 ? {} : _this$props$names;
       var _classes$dateContaine = classes.dateContainer,
           dateContainer = _classes$dateContaine === void 0 ? null : _classes$dateContaine,
+          _classes$day = classes.day,
+          dayClass = _classes$day === void 0 ? null : _classes$day,
+          _classes$dayContainer = classes.dayContainer,
+          dayContainer = _classes$dayContainer === void 0 ? null : _classes$dayContainer,
           _classes$month = classes.month,
           monthClass = _classes$month === void 0 ? null : _classes$month,
           _classes$monthContain = classes.monthContainer,
           monthContainer = _classes$monthContain === void 0 ? null : _classes$monthContain;
-      var _ids$month = ids.month,
+      var _ids$day = ids.day,
+          dayId = _ids$day === void 0 ? null : _ids$day,
+          _ids$month = ids.month,
           monthId = _ids$month === void 0 ? null : _ids$month;
-      var _names$month = names.month,
+      var _names$day = names.day,
+          dayName = _names$day === void 0 ? null : _names$day,
+          _names$month = names.month,
           monthName = _names$month === void 0 ? null : _names$month;
-      var _defaultValues$month = defaultValues.month,
+      var _defaultValues$day = defaultValues.day,
+          defaultDay = _defaultValues$day === void 0 ? null : _defaultValues$day,
+          _defaultValues$month = defaultValues.month,
           defaultMonth = _defaultValues$month === void 0 ? 'Month' : _defaultValues$month;
       var monthsOptions = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_lodash__["keyBy"])(this.generateMonthOptions(), 'value');
+      var dayOptions = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_lodash__["keyBy"])(this.generateDayOptions(), 'value');
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
         id: "dropdown-date",
         className: dateContainer
@@ -2119,16 +2121,18 @@ function (_Component) {
         placeholder: defaultMonth
       })), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
         id: "dropdown-day",
-        className: this.props.classes && this.props.classes.dayContainer ? this.props.classes.dayContainer : null
-      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("select", {
-        id: this.props.ids && this.props.ids.day ? this.props.ids.day : null,
-        name: this.props.names && this.props.names.day ? this.props.names.day : null,
-        className: this.props.classes && this.props.classes.day ? this.props.classes.day : null,
+        className: dayContainer
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_react_select__["a" /* default */], {
+        id: dayId,
+        name: dayName,
+        className: dayClass,
+        value: dayOptions[selectedDay],
         onChange: function onChange(e) {
-          return _this2.handleDayChange(e.target.value);
+          return _this2.handleDayChange(e ? e.value : null);
         },
-        value: this.state.selectedDay
-      }, this.generateDayOptions())), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+        options: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_lodash__["values"])(dayOptions),
+        placeholder: defaultDay
+      })), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
         id: "dropdown-year",
         className: this.props.classes && this.props.classes.yearContainer ? this.props.classes.yearContainer : null
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("select", {
