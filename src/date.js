@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { keyBy, values } from 'lodash';
 import { monthByNumber, numberByMonth, daysInMonth, unit } from './helper';
+import Select from 'react-select';
 
 export class DropdownDate extends Component {
 	constructor(props) {
