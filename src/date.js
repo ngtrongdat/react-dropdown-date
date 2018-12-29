@@ -1,25 +1,20 @@
 import React, { Component } from 'react';
 import { keyBy, values } from 'lodash';
-import { monthByNumber, numberByMonth, daysInMonth, unit } from './helper';
+import { monthByNumber, daysInMonth, unit } from './helper';
 import Select from 'react-select';
 
 export class DropdownDate extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			startYear: null,
-			startMonth: null,
-			startDay: null,
-			endYear: null,
-			endMonth: null,
-			endDay: null,
-			selectedYear: -1,
-			selectedMonth: -1,
-			selectedDay: -1
-		};
-		this.handleYearChange = this.handleYearChange.bind(this);
-		this.handleDateChange = this.handleDateChange.bind(this);
-	}
+	state = {
+		startYear: null,
+		startMonth: null,
+		startDay: null,
+		endYear: null,
+		endMonth: null,
+		endDay: null,
+		selectedYear: -1,
+		selectedMonth: -1,
+		selectedDay: -1
+	};
 
 	componentWillMount() {
 		let startYear, startMonth, startDay, endYear, endMonth, endDay, selectedYear, selectedMonth, selectedDay;
@@ -79,44 +74,20 @@ export class DropdownDate extends Component {
 
 	generateYearOptions = () => {
 		const { startYear, endYear } = this.state;
+		const { options = {} } = this.props;
+		const { yearReverse = false } = options;
+
 		const yearOptions = [];
-		yearOptions.push(
-			<option
-				key={-1}
-				value="-1"
-				className={
-					this.props.classes && this.props.classes.yearOptions ? this.props.classes.yearOptions : null
-				}>
-				{this.props.defaultValues && this.props.defaultValues.year ? this.props.defaultValues.year : ''}
-			</option>
-		);
-		if (this.props.options && this.props.options.yearReverse) {
+		if (yearReverse) {
 			for (let i = endYear; i >= startYear; i--) {
-				yearOptions.push(
-					<option
-						key={i}
-						value={i}
-						className={
-							this.props.classes && this.props.classes.yearOptions ? this.props.classes.yearOptions : null
-						}>
-						{i}
-					</option>
-				);
+				yearOptions.push({ label: i, value: i });
 			}
 		} else {
 			for (let i = startYear; i <= endYear; i++) {
-				yearOptions.push(
-					<option
-						key={i}
-						value={i}
-						className={
-							this.props.classes && this.props.classes.yearOptions ? this.props.classes.yearOptions : null
-						}>
-						{i}
-					</option>
-				);
+				yearOptions.push({ label: i, value: i });
 			}
 		}
+
 		return yearOptions;
 	};
 
@@ -205,14 +176,16 @@ export class DropdownDate extends Component {
 		return dayOptions;
 	};
 
-	handleYearChange(year) {
+	handleYearChange = year => {
+		const { onYearChange } = this.props;
+
 		year = parseInt(year);
 		this.setState({ selectedYear: year });
-		if (this.props.onYearChange) {
-			this.props.onYearChange(year);
+		if (onYearChange) {
+			onYearChange(year);
 		}
 		this.handleDateChange(unit.year, year);
-	}
+	};
 
 	handleMonthChange = month => {
 		const { onMonthChange } = this.props;
@@ -236,7 +209,7 @@ export class DropdownDate extends Component {
 		this.handleDateChange(unit.day, day);
 	};
 
-	handleDateChange(type, value) {
+	handleDateChange = (type, value) => {
 		if (this.props.onDateChange) {
 			let { selectedYear, selectedMonth, selectedDay } = this.state;
 			if (type === unit.year) {
@@ -250,27 +223,41 @@ export class DropdownDate extends Component {
 				this.props.onDateChange(new Date(selectedYear, selectedMonth, selectedDay));
 			}
 		}
-	}
+	};
 
 	render() {
-		const { selectedDay, selectedMonth } = this.state;
+		const { selectedDay, selectedMonth, selectedYear } = this.state;
 		const { classes = {}, defaultValues = {}, ids = {}, names = {} } = this.props;
 		const {
 			dateContainer = null,
 			day: dayClass = null,
 			dayContainer = null,
 			month: monthClass = null,
-			monthContainer = null
+			monthContainer = null,
+			year: yearClass = null,
+			yearContainer = null
 		} = classes;
-		const { day: dayId = null, month: monthId = null } = ids;
-		const { day: dayName = null, month: monthName = null } = names;
-		const { day: defaultDay = null, month: defaultMonth = 'Month' } = defaultValues;
+		const { day: dayId = null, month: monthId = null, year: yearId = null } = ids;
+		const { day: dayName = null, month: monthName = null, year: yearName = null } = names;
+		const { day: defaultDay = 'Day', month: defaultMonth = 'Month', year: defaultYear = 'Year' } = defaultValues;
 
-		const monthsOptions = keyBy(this.generateMonthOptions(), 'value');
 		const dayOptions = keyBy(this.generateDayOptions(), 'value');
+		const monthsOptions = keyBy(this.generateMonthOptions(), 'value');
+		const yearsOptions = keyBy(this.generateYearOptions(), 'value');
 
 		return (
 			<div id="dropdown-date" className={dateContainer}>
+				<div id="dropdown-year" className={yearContainer}>
+					<Select
+						id={yearId}
+						name={yearName}
+						className={yearClass}
+						value={yearsOptions[selectedYear]}
+						onChange={e => this.handleYearChange(e ? e.value : null)}
+						options={values(yearsOptions)}
+						placeholder={defaultYear}
+					/>
+				</div>
 				<div id="dropdown-month" className={monthContainer}>
 					<Select
 						id={monthId}
@@ -292,20 +279,6 @@ export class DropdownDate extends Component {
 						options={values(dayOptions)}
 						placeholder={defaultDay}
 					/>
-				</div>
-				<div
-					id="dropdown-year"
-					className={
-						this.props.classes && this.props.classes.yearContainer ? this.props.classes.yearContainer : null
-					}>
-					<select
-						id={this.props.ids && this.props.ids.year ? this.props.ids.year : null}
-						name={this.props.names && this.props.names.year ? this.props.names.year : null}
-						className={this.props.classes && this.props.classes.year ? this.props.classes.year : null}
-						onChange={e => this.handleYearChange(e.target.value)}
-						value={this.state.selectedYear}>
-						{this.generateYearOptions()}
-					</select>
 				</div>
 			</div>
 		);
