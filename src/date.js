@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { keyBy, values } from 'lodash';
+import { keyBy, values, reverse } from 'lodash';
 import { monthByNumber, daysInMonth, unit } from './helper';
 import Select from 'react-select';
 
@@ -254,7 +254,7 @@ export class DropdownDate extends Component {
 						className={yearClass}
 						value={yearsOptions[selectedYear]}
 						onChange={e => this.handleYearChange(e ? e.value : null)}
-						options={values(yearsOptions)}
+						options={yearReverse ? reverse(values(yearsOptions)) : values(yearsOptions)}
 						placeholder={defaultYear}
 					/>
 				</div>
