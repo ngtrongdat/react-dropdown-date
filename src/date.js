@@ -227,7 +227,7 @@ export class DropdownDate extends Component {
 
 	render() {
 		const { selectedDay, selectedMonth, selectedYear } = this.state;
-		const { classes = {}, defaultValues = {}, ids = {}, names = {} } = this.props;
+		const { options = {}, classes = {}, defaultValues = {}, ids = {}, names = {} } = this.props;
 		const {
 			dateContainer = null,
 			day: dayClass = null,
@@ -254,7 +254,7 @@ export class DropdownDate extends Component {
 						className={yearClass}
 						value={yearsOptions[selectedYear]}
 						onChange={e => this.handleYearChange(e ? e.value : null)}
-						options={yearReverse ? reverse(values(yearsOptions)) : values(yearsOptions)}
+						options={options.yearReverse ? reverse(values(yearsOptions)) : values(yearsOptions)}
 						placeholder={defaultYear}
 					/>
 				</div>
